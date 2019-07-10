@@ -1,0 +1,8 @@
+prefix=/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel
+
+Name: mybot_gazebo
+Description: Description of mybot_gazebo
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel/lib 
+Requires: 

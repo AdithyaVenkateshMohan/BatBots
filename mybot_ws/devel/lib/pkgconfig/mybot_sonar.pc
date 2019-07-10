@@ -1,0 +1,8 @@
+prefix=/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel
+
+Name: mybot_sonar
+Description: Description of mybot_sonar
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel/lib 
+Requires: 
