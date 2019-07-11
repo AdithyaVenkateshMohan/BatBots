@@ -130,7 +130,7 @@
       <alwaysOn>true</alwaysOn>
       <hokuyoMinIntensity> 100 </hokuyoMinIntensity>
       <use_pointcloud2> true </use_pointcloud2>
-      <topicName>/mybot/laser/pointcloud</topicName>
+      <topicName>/mybot/laser</topicName>
       <frameName>hokuyo</frameName>
       <gaussianNoise>0.01</gaussianNoise>
       <updateRate>30</updateRate>

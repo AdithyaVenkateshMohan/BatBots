@@ -44,7 +44,7 @@ def listener3d():
     #creates  a node called peeker to process the 
     rospy.init_node("peeker", anonymous = True)
     #subscribing to the pointcloud data which is published  
-    rospy.Subscriber("/mybot/laser/pointcloud2", PointCloud, callback)
+    rospy.Subscriber("/mybot/laser/pointcloud", PointCloud, callback)
     rospy.spin() #keeps the python from exciting until the node stopped
 
 

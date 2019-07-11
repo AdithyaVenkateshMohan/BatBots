@@ -58,9 +58,14 @@ namespace gazebo
     private: ros::NodeHandle* rosnode_;
     private: ros::Publisher pub_;
 
+    private: ros::Publisher pub2_;
+
+  
+
     /// \brief ros message
     private: sensor_msgs::PointCloud cloud_msg_;
 
+    private: sensor_msgs::PointCloud polar_cloud_msg_;
     /// \brief topic name
     private: std::string topic_name_;
 
@@ -88,6 +93,7 @@ namespace gazebo
 
     // Custom Callback Queue
     private: ros::CallbackQueue laser_queue_;
+
     private: void LaserQueueThread();
     private: boost::thread callback_laser_queue_thread_;
 

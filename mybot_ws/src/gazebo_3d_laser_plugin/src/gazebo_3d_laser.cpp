@@ -145,14 +145,29 @@ void Gazebo3DLaser::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
   this->cloud_msg_.channels.clear();
   this->cloud_msg_.channels.push_back(sensor_msgs::ChannelFloat32());
 
+  this->polar_cloud_msg_.points.clear();
+  this->polar_cloud_msg_.channels.clear();
+  this->polar_cloud_msg_.channels.push_back(sensor_msgs::ChannelFloat32());
+
   if (this->topic_name_ != "")
   {
     // Custom Callback Queue
     ros::AdvertiseOptions ao = ros::AdvertiseOptions::create<sensor_msgs::PointCloud>(
-      this->topic_name_,1,
+      this->topic_name_ + "/pointcloud",1,
       boost::bind( &Gazebo3DLaser::LaserConnect,this),
       boost::bind( &Gazebo3DLaser::LaserDisconnect,this), ros::VoidPtr(), &this->laser_queue_);
+  
     this->pub_ = this->rosnode_->advertise(ao);
+
+    // adding one more publisher here to publish the polar co-ordinates
+
+    ros::AdvertiseOptions aopo = ros::AdvertiseOptions::create<sensor_msgs::PointCloud>(
+      this->topic_name_ + "/polorcloud",1,
+      boost::bind( &Gazebo3DLaser::LaserConnect,this),
+      boost::bind( &Gazebo3DLaser::LaserDisconnect,this), ros::VoidPtr(), &this->laser_queue_);
+
+      this->pub2_ = this->rosnode_-> advertise(aopo);
+
   }
 
 
@@ -216,7 +231,7 @@ void Gazebo3DLaser::PutLaserData(common::Time &_updateTime)
   double vb, hb;
   int    j1, j2, j3, j4; // four corners indices
   double r1, r2, r3, r4, r; // four corner values + interpolated range
-  double intensity;
+  double intensity , intensity1;
 
   this->parent_ray_sensor_->SetActive(false);
 
@@ -243,6 +258,10 @@ void Gazebo3DLaser::PutLaserData(common::Time &_updateTime)
   this->cloud_msg_.channels.clear();
   this->cloud_msg_.channels.push_back(sensor_msgs::ChannelFloat32());
 
+  this->polar_cloud_msg_.points.clear();
+  this->polar_cloud_msg_.channels.clear();
+  this->polar_cloud_msg_.channels.push_back(sensor_msgs::ChannelFloat32());
+
   /***************************************************************/
   /*                                                             */
   /*  point scan from laser                                      */
@@ -253,6 +272,11 @@ void Gazebo3DLaser::PutLaserData(common::Time &_updateTime)
   this->cloud_msg_.header.frame_id = this->frame_name_;
   this->cloud_msg_.header.stamp.sec = _updateTime.sec;
   this->cloud_msg_.header.stamp.nsec = _updateTime.nsec;
+
+  this->polar_cloud_msg_.header.frame_id = this->frame_name_;
+  this->polar_cloud_msg_.header.stamp.sec = _updateTime.sec;
+  this->polar_cloud_msg_.header.stamp.nsec = _updateTime.nsec;
+
 
   for (j = 0; j<verticalRangeCount; j++)
   {
@@ -293,10 +317,22 @@ void Gazebo3DLaser::PutLaserData(common::Time &_updateTime)
          +   vb *((1 - hb) * r3 + hb * r4);
 
       // Intensity is averaged
+
+      intensity1 = this->parent_ray_sensor_->LaserShape()->GetRetro(j1);
+
       intensity = 0.25*(this->parent_ray_sensor_->LaserShape()->GetRetro(j1) +
                         this->parent_ray_sensor_->LaserShape()->GetRetro(j2) +
                         this->parent_ray_sensor_->LaserShape()->GetRetro(j3) +
                         this->parent_ray_sensor_->LaserShape()->GetRetro(j4));
+
+
+
+      // if (intensity <= 50)
+      // {
+      //   continue;
+      // }
+
+      std::cout << "debug intensity" << intensity << "minor j1"<< intensity1 <<std::endl;
 
       // std::cout << " block debug "
       //           << "  ij("<<i<<","<<j<<")"
@@ -320,31 +356,49 @@ void Gazebo3DLaser::PutLaserData(common::Time &_updateTime)
       {
         // no noise if at max range
         geometry_msgs::Point32 point;
+
+        geometry_msgs::Point32 polar;
         //pAngle is rotated by yAngle:
         point.x = r * cos(pAngle) * cos(yAngle);
         point.y = r * cos(pAngle) * sin(yAngle);
         point.z = r * sin(pAngle);
 
+        polar.x = r ;
+        polar.y = yAngle;
+        polar.z = pAngle;
+
         this->cloud_msg_.points.push_back(point);
+        this->polar_cloud_msg_.points.push_back(polar);
       }
       else
       {
         geometry_msgs::Point32 point;
+        geometry_msgs::Point32 polar;
         //pAngle is rotated by yAngle:
+        // try to directly pack the polar co-ordinates values over here
         point.x = r * cos(pAngle) * cos(yAngle) + this->GaussianKernel(0,this->gaussian_noise_);
         point.y = r * cos(pAngle) * sin(yAngle) + this->GaussianKernel(0,this->gaussian_noise_);
         point.z = r * sin(pAngle) + this->GaussianKernel(0,this->gaussian_noise_);
-        this->cloud_msg_.points.push_back(point);
-      } // only 1 channel
+        
+        polar.x = r ;
+        polar.y = yAngle;
+        polar.z = pAngle;
 
-      this->cloud_msg_.channels[0].values.push_back(intensity + this->GaussianKernel(0,this->gaussian_noise_)) ;
+        this->cloud_msg_.points.push_back(point);
+        this->polar_cloud_msg_.points.push_back(polar);
+      } // only 1 channel
+      // this->cloud_msg_.channels[0]. push the name here
+      // removing the noise
+      // this->cloud_msg_.channels[0].values.push_back(intensity + this->GaussianKernel(0,this->gaussian_noise_)) ;
+      this->cloud_msg_.channels[0].values.push_back(intensity);
+      this->polar_cloud_msg_.channels[0].values.push_back(intensity);
     }
   }
   this->parent_ray_sensor_->SetActive(true);
-
+  // may be try to just send the polar co-ord as addtional topic to avoid confusion
   // send data out via ros message
   this->pub_.publish(this->cloud_msg_);
-
+  this->pub2_.publish(this->polar_cloud_msg_);
 
 
 }
