@@ -126,10 +126,11 @@
       </ray>
 
       
-      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_block_laser.so">
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_3d_laser_plugin.so">
       <alwaysOn>true</alwaysOn>
+      <hokuyoMinIntensity> 100 </hokuyoMinIntensity>
       <use_pointcloud2> true </use_pointcloud2>
-      <topicName>/mybot/laser/pointcloud2</topicName>
+      <topicName>/mybot/laser/pointcloud</topicName>
       <frameName>hokuyo</frameName>
       <gaussianNoise>0.01</gaussianNoise>
       <updateRate>30</updateRate>

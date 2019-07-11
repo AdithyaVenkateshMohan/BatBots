@@ -121,6 +121,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/mybot_gazebo/cmake_install.cmake")
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/mybot_navigation/cmake_install.cmake")
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/mybot_sonar/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo_3d_laser_plugin/cmake_install.cmake")
 
 endif()
 

@@ -29,8 +29,12 @@ def callback(data):
     pc_list = data.points
     intensity_list = data.channels
     rospy.loginfo(rospy.get_caller_id()+"points are " + "data")
-    rospy.loginfo(pc_list)
-    rospy.loginfo(intensity_list)
+    rospy.loginfo(pc_list[1])
+    p = pc_list[1].x
+    val = intensity_list[0].name
+    value = intensity_list[0]
+    rospy.loginfo("x point")
+    rospy.loginfo(value)
 
 
 
