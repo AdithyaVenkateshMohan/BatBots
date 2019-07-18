@@ -38,10 +38,33 @@
 
   <gazebo reference="chassis">
     <material>Gazebo/Orange</material>
+    <sensor type = "contact" name = "contact_sensor">
+    <always_on> true </always_on>
+    <update_rate> 30 </update_rate>
+    <contact>
+    <material>Gazebo/Blue</material>
+    <collision> chassis_fixed_joint_lump__collision_collision </collision>
+    </contact>
+    <plugin name = "collision_sensor" filename = "libgazebo_ros_bumper.so">
+    <bumperTopicName>/mybot/body_collision </bumperTopicName>
+    <frameName>body_collision</frameName>
+    </plugin>
+    </sensor> 
   </gazebo>
 
   <gazebo reference="left_wheel">
     <material>Gazebo/Blue</material>
+    <sensor type = "contact" name = "Lcontact_sensor">
+    <always_on> true </always_on>
+    <update_rate> 30 </update_rate>
+    <contact>
+    <collision> left_wheel_fixed_joint_lump__collision_collision </collision>
+    </contact>
+    <plugin name = "Lcollision_sensor" filename = "libgazebo_ros_bumper.so">
+    <bumperTopicName>/mybot/left_collision </bumperTopicName>
+    <frameName>leftWheel_collision</frameName>
+    </plugin>
+    </sensor> 
   </gazebo>
 
   <gazebo reference="right_wheel">

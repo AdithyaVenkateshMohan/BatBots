@@ -111,10 +111,15 @@ def callback(data):
 
     echo_sequence = numpy.convolve(emission, impulse_response, mode='same')
 
-    pyplot.figure()
+    pyplot.figure(1)
     pyplot.plot(impulse_time, echo_sequence)
+    pyplot.draw()
+    pyplot.pause(0.00000002)
+    pyplot.clf()
+    pyplot.cla()
 
-    pyplot.show()
+
+    
 
 
 
@@ -122,6 +127,9 @@ def callback(data):
 
 def listener3d():
     #creates  a node called peeker to process the 
+    
+    pyplot.show()
+    pyplot.ion()
     rospy.init_node("peeker", anonymous = True)
     #subscribing to the pointcloud data which is published  
     rospy.Subscriber("/mybot/laser/polorcloud", PointCloud, callback)

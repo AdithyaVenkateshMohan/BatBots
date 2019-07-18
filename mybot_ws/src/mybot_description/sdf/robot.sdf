@@ -1,0 +1,363 @@
+<?xml version="1.0" ?>
+<sdf version='1.6'>
+  <model name='myrobot'>
+    <link name='chassis'>
+      <pose frame=''>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose frame=''>0.001325 0 0.099338 0 -0 0</pose>
+        <mass>15.1</mass>
+        <inertia>
+          <ixx>0.100995</ixx>
+          <ixy>0</ixy>
+          <ixz>0.00198675</ixz>
+          <iyy>0.104969</iyy>
+          <iyz>0</iyz>
+          <izz>0.103976</izz>
+        </inertia>
+      </inertial>
+      <collision name='chassis_fixed_joint_lump__collision_collision'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.4 0.2 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='chassis_fixed_joint_lump__caster_collision_collision_1'>
+        <pose frame=''>-0.15 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <collision name='chassis_fixed_joint_lump__caster_front_collision_collision_2'>
+        <pose frame=''>0.15 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <collision name='chassis_fixed_joint_lump__camera_collision_3'>
+        <pose frame=''>0.2 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.05</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='chassis_fixed_joint_lump__hokuyo_collision_4'>
+        <pose frame=''>0.15 0 0.1 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.1</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='chassis_visual_visual'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.4 0.2 0.1</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Orange</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='chassis_fixed_joint_lump__caster_visual_visual_1'>
+        <pose frame=''>-0.15 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>
+          </sphere>
+        </geometry>
+      </visual>
+      <visual name='chassis_fixed_joint_lump__caster_front_visual_visual_2'>
+        <pose frame=''>0.15 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>
+          </sphere>
+        </geometry>
+      </visual>
+      <visual name='chassis_fixed_joint_lump__camera_visual_3'>
+        <pose frame=''>0.2 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.05</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Green</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='chassis_fixed_joint_lump__hokuyo_visual_4'>
+        <pose frame=''>0.15 0 0.1 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mybot_description/meshes/hokuyo.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>__default__</uri>
+            <name>__default__</name>
+          </script>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <sensor name='contact_sensor' type='contact'>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <contact>
+          <collision>collision</collision>
+          <topic>__default_topic__</topic>
+        </contact>
+        <plugin name='collision_sensor' filename='libgazebo_ros_bumper.so'>
+          <bumperTopicName>/mybot/body_collision</bumperTopicName>
+          <frameName>body_collision</frameName>
+        </plugin>
+      </sensor>
+      <velocity_decay/>
+      <sensor name='camera1' type='camera'>
+        <update_rate>30</update_rate>
+        <camera name='head'>
+          <horizontal_fov>1.39626</horizontal_fov>
+          <image>
+            <width>800</width>
+            <height>800</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+        </camera>
+        <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>mybot/camera1</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera</frameName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+        <pose frame=''>0.2 0 0 0 -0 0</pose>
+      </sensor>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name='head_hokuyo_sensor' type='ray'>
+        <visualize>1</visualize>
+        <update_rate>40</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>100</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.523</min_angle>
+              <max_angle>0.523</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>100</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0.523</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>30</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name='gazebo_ros_head_hokuyo_controller' filename='libgazebo_3d_laser_plugin.so'>
+          <alwaysOn>true</alwaysOn>
+          <hokuyoMinIntensity>100</hokuyoMinIntensity>
+          <use_pointcloud2>true</use_pointcloud2>
+          <topicName>/mybot/laser</topicName>
+          <frameName>hokuyo</frameName>
+          <gaussianNoise>0.01</gaussianNoise>
+          <updateRate>30</updateRate>
+        </plugin>
+        <always_on>1</always_on>
+        <pose frame=''>0.15 0 0.1 0 -0 0</pose>
+      </sensor>
+    </link>
+    <link name='left_wheel'>
+      <pose frame=''>0 0.15 0 0 -0 0</pose>
+      <inertial>
+        <pose frame=''>0 0 0 0 1.5707 1.5707</pose>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.1</iyy>
+          <iyz>0</iyz>
+          <izz>0.1</izz>
+        </inertia>
+      </inertial>
+      <collision name='left_wheel_fixed_joint_lump__collision_collision'>
+        <pose frame=''>0 0 0 0 1.5707 1.5707</pose>
+        <geometry>
+          <cylinder>
+            <length>0.05</length>
+            <radius>0.1</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='left_wheel_visual_visual'>
+        <pose frame=''>0 0 0 0 1.5707 1.5707</pose>
+        <geometry>
+          <cylinder>
+            <length>0.05</length>
+            <radius>0.1</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Blue</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name='Lcontact_sensor' type='contact'>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <contact>
+          <collision>collision</collision>
+          <topic>__default_topic__</topic>
+        </contact>
+        <plugin name='Lcollision_sensor' filename='libgazebo_ros_bumper.so'>
+          <bumperTopicName>/mybot/left_collision</bumperTopicName>
+          <frameName>leftWheel_collision</frameName>
+        </plugin>
+      </sensor>
+    </link>
+    <joint name='left_wheel_hinge' type='revolute'>
+      <child>left_wheel</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='right_wheel'>
+      <pose frame=''>0 -0.15 0 0 -0 0</pose>
+      <inertial>
+        <pose frame=''>0 0 0 0 1.5707 1.5707</pose>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.1</iyy>
+          <iyz>0</iyz>
+          <izz>0.1</izz>
+        </inertia>
+      </inertial>
+      <collision name='right_wheel_fixed_joint_lump__collision_collision'>
+        <pose frame=''>0 0 0 0 1.5707 1.5707</pose>
+        <geometry>
+          <cylinder>
+            <length>0.05</length>
+            <radius>0.1</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='right_wheel_visual_visual'>
+        <pose frame=''>0 0 0 0 1.5707 1.5707</pose>
+        <geometry>
+          <cylinder>
+            <length>0.05</length>
+            <radius>0.1</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Blue</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='right_wheel_hinge' type='revolute'>
+      <child>right_wheel</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <static>0</static>
+    <plugin name='differential_drive_controller' filename='libgazebo_ros_diff_drive.so'>
+      <legacyMode>false</legacyMode>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>10</updateRate>
+      <leftJoint>left_wheel_hinge</leftJoint>
+      <rightJoint>right_wheel_hinge</rightJoint>
+      <wheelSeparation>0.4</wheelSeparation>
+      <wheelDiameter>0.2</wheelDiameter>
+      <torque>10</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+  </model>
+</sdf>

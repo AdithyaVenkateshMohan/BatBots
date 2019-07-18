@@ -1,2 +1,2 @@
-gazebo_3d_laser_plugin:mybot_description:mybot_gazebo:mybot_navigation:mybot_sonar
+SetPoseforObjects:gazebo_3d_laser_plugin:mybot_description:mybot_gazebo:mybot_navigation:mybot_sonar
 -DCATKIN_DEVEL_PREFIX=/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel -DCMAKE_INSTALL_PREFIX=/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install -G Unix Makefiles

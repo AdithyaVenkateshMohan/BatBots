@@ -332,7 +332,7 @@ void Gazebo3DLaser::PutLaserData(common::Time &_updateTime)
       //   continue;
       // }
 
-      std::cout << "debug intensity" << intensity << "minor j1"<< intensity1 <<std::endl;
+      //std::cout << "debug intensity" << intensity << "minor j1"<< intensity1 <<std::endl;
 
       // std::cout << " block debug "
       //           << "  ij("<<i<<","<<j<<")"
