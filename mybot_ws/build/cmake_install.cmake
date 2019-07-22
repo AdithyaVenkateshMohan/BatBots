@@ -68,38 +68,47 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/setup.bash")
+   "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/setup.bash;/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install" TYPE FILE FILES "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/setup.bash")
+file(INSTALL DESTINATION "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install" TYPE FILE FILES
+    "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/setup.bash"
+    "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/local_setup.bash"
+    )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/setup.sh")
+   "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/setup.sh;/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install" TYPE FILE FILES "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/setup.sh")
+file(INSTALL DESTINATION "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install" TYPE FILE FILES
+    "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/setup.sh"
+    "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/local_setup.sh"
+    )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/setup.zsh")
+   "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/setup.zsh;/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install" TYPE FILE FILES "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/setup.zsh")
+file(INSTALL DESTINATION "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install" TYPE FILE FILES
+    "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/setup.zsh"
+    "/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/catkin_generated/installspace/local_setup.zsh"
+    )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
@@ -121,6 +130,15 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/mybot_gazebo/cmake_install.cmake")
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/mybot_navigation/cmake_install.cmake")
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/mybot_sonar/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/general-message-pkgs/path_navigation_msgs/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/general-message-pkgs/object_msgs/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo_rosPosePublisher/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo-pkgs/gazebo_test_tools/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo-pkgs/gazebo_version_helpers/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo-pkgs/gazebo_grasp_plugin/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo-pkgs/gazebo_world_plugin_loader/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/general-message-pkgs/object_msgs_tools/cmake_install.cmake")
+  include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo-pkgs/gazebo_state_plugins/cmake_install.cmake")
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/SetPoseforObjects/cmake_install.cmake")
   include("/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/build/gazebo_3d_laser_plugin/cmake_install.cmake")
 

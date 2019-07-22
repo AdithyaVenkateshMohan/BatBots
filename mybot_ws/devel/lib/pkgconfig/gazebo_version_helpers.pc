@@ -1,0 +1,8 @@
+prefix=/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel
+
+Name: gazebo_version_helpers
+Description: Description of gazebo_version_helpers
+Version: 0.0.0
+Cflags: -I/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/src/gazebo-pkgs/gazebo_version_helpers/include
+Libs: -L/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel/lib -lgazebo_version_helpers
+Requires: gazebo_ros roscpp

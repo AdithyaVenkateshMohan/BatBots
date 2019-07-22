@@ -1,0 +1,8 @@
+prefix=/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install
+
+Name: gazebo_rosPosePublisher
+Description: Description of gazebo_rosPosePublisher
+Version: 0.0.0
+Cflags: -I/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/include
+Libs: -L/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/lib -lgazebo_rosPosePublisher
+Requires: gazebo_msgs gazebo_plugin gazebo_ros geometry_msgs roscpp std_msgs

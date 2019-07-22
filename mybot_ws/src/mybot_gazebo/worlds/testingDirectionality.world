@@ -25,27 +25,47 @@
       <real_time_update_rate>100</real_time_update_rate>
       <gravity>0 0 -9.8</gravity>
     </physics>
+
+
+
+    <!--include>
+      <uri>model://willowgarage</uri>
+    </include-->
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+   
+
     
-<model name="box">
+<model name='sphere'>
       <static>true</static>
-      <pose>0 0 0.5 0 0 0</pose>
+      <pose>1 1 0.5 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
           </geometry>
         </visual>
       </link>
-      <plugin name="sample" filename="libSetPoseforObjects.so"/>
+      <!-- <plugin name="sample" filename="libSetPoseforObjects.so"/> -->
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+      <topicName>/test/object/sphere/pose </topicName>
+      <frameName> DirectionalityTest </frameName>
+      </plugin>
+
+      
+      
     </model>
 
 
