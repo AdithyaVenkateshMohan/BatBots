@@ -5,4 +5,4 @@ Description: Description of SetPoseforObjects
 Version: 0.0.0
 Cflags: -I/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel/include -I/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/src/SetPoseforObjects/include
 Libs: -L/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/devel/lib -lSetPoseforObjects
-Requires: gazebo_dev gazebo_plugins gazebo_ros roscpp gazebo_msgs message_runtime
+Requires: gazebo_dev gazebo_plugins gazebo_ros roscpp gazebo_msgs message_runtime rospy

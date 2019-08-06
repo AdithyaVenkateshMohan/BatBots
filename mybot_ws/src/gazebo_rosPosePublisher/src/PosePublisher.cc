@@ -35,9 +35,10 @@ PosePub::~PosePub()
 
 void PosePub::Load(physics::ModelPtr _model , sdf::ElementPtr _sdf)
 {
+  ROS_INFO("Loading");
     this-> model = _model;
     this->sdf = _sdf;
-
+ROS_INFO(".");
     if (!_sdf->HasElement("frameName"))
   {
     ROS_INFO_NAMED("block_laser", "Block laser plugin missing <frameName>, defaults to /world");
@@ -48,43 +49,41 @@ void PosePub::Load(physics::ModelPtr _model , sdf::ElementPtr _sdf)
 
   if (!_sdf->HasElement("topicName"))
   {
-    ROS_INFO_NAMED("block_laser", "Block laser plugin missing <topicName>, defaults to /world");
+    ROS_INFO_NAMED("block_laser", "Block laser plugin missing <topicName>, defaults to /worldd");
     this->topic_name_ = "/world";
   }
   else
     this->topic_name_ = _sdf->GetElement("topicName")->Get<std::string>();
 
+
  this->connections.push_back(event::Events::ConnectWorldUpdateBegin(std::bind(&PosePub::onUpdate, this)));
 
- 
+ ROS_INFO(".");
+
+ if (!ros::isInitialized())
+  {
+    ROS_FATAL_STREAM_NAMED("block_laser", "A ROS node for Gazebo has not been initialized, unable to load plugin. "
+      << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so' in the gazebo_ros package)");
+    return;
+  }
 
     //// ros side of the functions
 
-    this->rosnode = new ros::NodeHandle("posePub");
+    this->rosnode = new ros::NodeHandle("PosePub");
+    std::cout<< this->frame_name_<<std::endl;
     ros::AdvertiseOptions ao = ros::AdvertiseOptions::create<geometry_msgs::Pose>(
                                 this->topic_name_ ,100 ,boost::bind(&PosePub::PoseConnect, this),boost::bind(&PosePub::PoseDisconnect, this),ros::VoidPtr(), &this->pose_queue_ );
-  
+  ROS_INFO(".");
     this->pub_ = this->rosnode->advertise(ao);
 
     this->callback_pose_queue_thread_ = boost::thread( boost::bind( &PosePub::PoseQueueThread,this ) );
+
+    ROS_INFO("Done loading");
 }
 
 void PosePub::onUpdate()
 {
     ignition::math::Pose3d pose = this->model->GetWorldPose().Ign();
-
-    // geometry_msgs::Point p_ = new geometry_msgs::Point((float) pose.Pos().X(),
-    //                             (float) pose.Pos().Y(),
-    //                             (float) pose.Pos().Z());
-
-    // geometry_msgs::Quaternion q_ = new geometry_msgs::Quaternion(pose.Rot().X(),
-    //                             pose.Rot().Y(),
-    //                             pose.Rot().Z(),
-    //                             pose.Rot().W()) ;
-
-
-
-    // pose_ = new geometry_msgs::Pose( p_ , q_);
 
     pose_.position.x = pose.Pos().X();
     pose_.position.y = pose.Pos().Y();

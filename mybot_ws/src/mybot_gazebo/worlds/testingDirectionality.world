@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version='1.4'>
+
   <world name='default'>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
@@ -26,22 +27,13 @@
       <gravity>0 0 -9.8</gravity>
     </physics>
 
-
-
-    <!--include>
-      <uri>model://willowgarage</uri>
-    </include-->
-
     <include>
       <uri>model://ground_plane</uri>
     </include>
-
-   
-
     
-<model name='sphere'>
+<model name="sphereS1">
       <static>true</static>
-      <pose>1 1 0.5 0 0 0</pose>
+      <pose>5 0 0.1 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
@@ -58,16 +50,299 @@
           </geometry>
         </visual>
       </link>
-      <!-- <plugin name="sample" filename="libSetPoseforObjects.so"/> -->
       <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
-      <topicName>/test/object/sphere/pose </topicName>
-      <frameName> DirectionalityTest </frameName>
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-sphereS1 </frameName>
       </plugin>
-
-      
-      
+      <plugin name = 'settingPose' filename = "libSetPoseforObjects.so"/>
     </model>
+
+
+    <!-- <model name="testsphereS1">
+      <static>true</static>
+      <pose>5 0 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereS1 </frameName>
+      </plugin>
+    </model>
+
+
+    <model name="testsphereL1">
+      <static>true</static>
+      <pose>0 5 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereL1</frameName>
+      </plugin>
+    </model>
+
+
+
+    <model name="testsphereL2">
+      <static>true</static>
+      <pose>1.71 4.698 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereL2 </frameName>
+      </plugin>
+    </model>
+
+
+
+    <model name="testsphereL3">
+      <static>true</static>
+      <pose>3.214 3.83 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereL3 </frameName>
+      </plugin>
+    </model>
+
+
+
+    <model name="testsphereL4">
+      <static>true</static>
+      <pose>4.33 2.5 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereL4 </frameName>
+      </plugin>
+    </model>
+
+    <model name="testsphereL5">
+      <static>true</static>
+      <pose>4.924 0.868 .1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereL5 </frameName>
+      </plugin>
+    </model>
+
+
+    <model name="testsphereR2">
+      <static>true</static>
+      <pose>4.33 -2.5 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereR2 </frameName>
+      </plugin>
+    </model>
+
+    <model name="testsphereR1">
+      <static>true</static>
+      <pose>4.924 -0.868 .1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereR1 </frameName>
+      </plugin>
+    </model>
+
+    <model name="testsphereR3">
+      <static>true</static>
+      <pose>3.214 -3.83 .1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereR3 </frameName>
+      </plugin>
+    </model>
+
+    <model name="testsphereR4">
+      <static>true</static>
+      <pose>1.71 -4.698 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereR4 </frameName>
+      </plugin>
+    </model>
+
+    <model name="testsphereR5">
+      <static>true</static>
+      <pose>0 -5 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>1 </radius>
+            </sphere>
+          </geometry>
+        </visual>
+      </link>
+      <plugin name="sample" filename="libgazebo_rosPosePublisher.so">
+          <topicName> /test/sphere/pose </topicName>
+          <frameName> directionalityTest-testsphereR5 </frameName>
+      </plugin>
+    </model> -->
 
 
   </world>
 </sdf>
+
+    

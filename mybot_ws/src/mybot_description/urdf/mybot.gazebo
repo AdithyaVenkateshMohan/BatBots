@@ -2,6 +2,9 @@
 <robot>
 
     
+<gazebo>
+<static> true </static>
+</gazebo>
 
   <gazebo>
     <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
@@ -35,10 +38,12 @@
     <frameName>body_collision</frameName>
     </plugin>
     </sensor> 
+      <!-- <maxVel value="1.0" />
+      <minDepth value="0.001" /> -->
   </gazebo>
 
   <gazebo reference="left_wheel">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
     <sensor type = "contact" name = "Lcontact_sensor">
     <always_on> true </always_on>
     <update_rate> 30 </update_rate>
@@ -50,22 +55,22 @@
     <frameName>leftWheel_collision</frameName>
     </plugin>
     </sensor> 
-    <!-- <mu1 value="10.0" />
-      <mu2 value="10.0" />
-      <kp value="10.0" />
-      <kd value="0.00001" />
+    <mu1 value="1000" />
+      <mu2 value="1000" />
+      <kp value="10000.0" />
+      <kd value="1" />
       <maxVel value="1.0" />
-      <minDepth value="0.0001" /> -->
+      <minDepth value="0.001" />
   </gazebo>
 
   <gazebo reference="right_wheel">
     <material>Gazebo/Blue</material>
-    <!-- <mu1 value="10.0" />
-      <mu2 value="10.0" />
-      <kp value="10.0" />
-      <kd value="0.00001" />
+    <mu1 value="1000" />
+      <mu2 value="1000" />
+      <kp value="10000.0" />
+      <kd value="1" />
       <maxVel value="1.0" />
-      <minDepth value="0.0001" /> -->
+      <minDepth value="0.001" />
   </gazebo>
 
 
@@ -103,22 +108,24 @@
   </gazebo>
 
 <gazebo reference="left_wheel_hinge">
-      <mu1 value="10000.0" />
-      <mu2 value="10000.0" />
+      <mu1 value="1000.0" />
+      <mu2 value="1000.0" />
       <kp value="100000.0" />
-      <kd value="0.00001" />
+      <kd value="0.001" />
       <maxVel value="1.0" />
       <minDepth value="0.0001" />
+      <implicitSpringDamper>true</implicitSpringDamper>
   </gazebo>
   
       
   <gazebo reference="right_wheel_hinge">
-      <mu1 value="10000.0" />
-      <mu2 value="10000.0" />
-      <kp value="10000.0" />
-      <kd value="0.00001" />
+      <mu1 value="1000.0" />
+      <mu2 value="1000.0" />
+      <kp value="100000.0" />
+      <kd value="0.001" />
       <maxVel value="1.0" />
       <minDepth value="0.0001" />
+      <implicitSpringDamper>true</implicitSpringDamper>
   </gazebo > 
 
   <!-- hokuyo -->
