@@ -13,6 +13,8 @@ ros/ros.h
 -
 geometry_msgs/Pose.h
 /home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/src/gazebo_rosPosePublisher/include/gazebo_rosPosePublisher/geometry_msgs/Pose.h
+geometry_msgs/PoseStamped.h
+-
 ros/callback_queue.h
 -
 ros/advertise_options.h
@@ -33,6 +35,10 @@ ros/ros.h
 -
 geometry_msgs/Pose.h
 /home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/src/gazebo_rosPosePublisher/src/geometry_msgs/Pose.h
+geometry_msgs/PoseStamped.h
+-
+std_msgs/Header.h
+-
 gazebo_rosPosePublisher/PosePublisher.hh
 /home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/src/gazebo_rosPosePublisher/src/gazebo_rosPosePublisher/PosePublisher.hh
 
@@ -130,6 +136,26 @@ ros/message_operations.h
 geometry_msgs/Point.h
 -
 geometry_msgs/Quaternion.h
+-
+
+/opt/ros/kinetic/include/geometry_msgs/PoseStamped.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+std_msgs/Header.h
+-
+geometry_msgs/Pose.h
 -
 
 /opt/ros/kinetic/include/geometry_msgs/Quaternion.h
@@ -829,6 +855,22 @@ ros/forwards.h
 /opt/ros/kinetic/include/ros/ros/forwards.h
 
 /opt/ros/kinetic/include/rosconsole/macros_generated.h
+
+/opt/ros/kinetic/include/std_msgs/Header.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
 
 /opt/ros/kinetic/include/xmlrpcpp/XmlRpcDecl.h
 ros/macros.h

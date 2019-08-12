@@ -4,7 +4,8 @@
 # topic that need to be subcribed is a point cloud /mybot/laser/pointcloud2
 # point cloud2 will have the x,y,z which have to be converted into polar co-ordinates
 # then given to the sonar signal simlator to get the signal
-# this block of code is meant to be written in python 2.7
+# this block of code is meant to be written in python 3
+#
 # 
 
 

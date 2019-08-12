@@ -9,6 +9,8 @@
 // include files for ros
 #include <ros/ros.h>
 #include "geometry_msgs/Pose.h"
+#include <geometry_msgs/PoseStamped.h>
+#include <std_msgs/Header.h>
 #include "gazebo_rosPosePublisher/PosePublisher.hh"
 
 using namespace gazebo;
@@ -38,6 +40,11 @@ void PosePub::Load(physics::ModelPtr _model , sdf::ElementPtr _sdf)
   ROS_INFO("Loading");
     this-> model = _model;
     this->sdf = _sdf;
+
+    this->world_ = _model->GetWorld();
+
+    this->last_update_time_ = this->world_->GetSimTime();
+
 ROS_INFO(".");
     if (!_sdf->HasElement("frameName"))
   {
@@ -71,7 +78,7 @@ ROS_INFO(".");
 
     this->rosnode = new ros::NodeHandle("PosePub");
     std::cout<< this->frame_name_<<std::endl;
-    ros::AdvertiseOptions ao = ros::AdvertiseOptions::create<geometry_msgs::Pose>(
+    ros::AdvertiseOptions ao = ros::AdvertiseOptions::create<geometry_msgs::PoseStamped>(
                                 this->topic_name_ ,100 ,boost::bind(&PosePub::PoseConnect, this),boost::bind(&PosePub::PoseDisconnect, this),ros::VoidPtr(), &this->pose_queue_ );
   ROS_INFO(".");
     this->pub_ = this->rosnode->advertise(ao);
@@ -83,18 +90,55 @@ ROS_INFO(".");
 
 void PosePub::onUpdate()
 {
-    ignition::math::Pose3d pose = this->model->GetWorldPose().Ign();
 
-    pose_.position.x = pose.Pos().X();
-    pose_.position.y = pose.Pos().Y();
-    pose_.position.z = pose.Pos().Z();
+/// gets the prev animation time according to the model
+    common::Time model_update_time = this->world_->GetSimTime();
 
-    pose_.orientation.x = pose.Rot().X();
-    pose_.orientation.y = pose.Rot().Y();
-    pose_.orientation.z = pose.Rot().Z();
-    pose_.orientation.w = pose.Rot().W();
+    // this block is to omit the negative update time
+    if(model_update_time <  this->last_update_time_)
+    {
+      ROS_WARN_NAMED("posepub", "negative model update time");
+      this->last_update_time_ = model_update_time ;
+      
+    }
 
-    this->pub_. publish(pose_);
+    if (this->last_update_time_ < model_update_time)
+    {
+        
+      ignition::math::Pose3d pose = this->model->GetWorldPose().Ign();
+
+      
+
+      /// updating the time stamp info with the current time
+      this->poseStamp_.header.frame_id = this->frame_name_;
+      this->poseStamp_.header.stamp.sec = model_update_time.sec;
+      this->poseStamp_.header.stamp.nsec = model_update_time.nsec;
+      /// getting the pose info from the gazebo engine
+      pose_.position.x = pose.Pos().X();
+      pose_.position.y = pose.Pos().Y();
+      pose_.position.z = pose.Pos().Z();
+
+      pose_.orientation.x = pose.Rot().X();
+      pose_.orientation.y = pose.Rot().Y();
+      pose_.orientation.z = pose.Rot().Z();
+      pose_.orientation.w = pose.Rot().W();
+
+      this->poseStamp_.pose = this->pose_;
+
+      /// publishing the pose of the model in the given topic in ros
+      this->pub_. publish(this->poseStamp_);
+
+  //     this->cloud_msg_.header.frame_id = this->frame_name_;
+  // this->cloud_msg_.header.stamp.sec = _updateTime.sec;
+  // this->cloud_msg_.header.stamp.nsec = _updateTime.nsec;
+
+
+
+      // updating the last update time 
+      this->last_update_time_ = model_update_time;
+    }
+
+  
 
 }
 

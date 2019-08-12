@@ -5,6 +5,7 @@
 #include <gazebo/common/Plugin.hh>
 #include <ros/ros.h>
 #include "geometry_msgs/Pose.h"
+#include <geometry_msgs/PoseStamped.h>
 
 #include <ros/callback_queue.h>
 #include <ros/advertise_options.h>
@@ -25,6 +26,10 @@ namespace gazebo
 
         private : 
 
+                physics::WorldPtr world_;
+
+                common::Time last_update_time_;
+
                 std::vector<event::ConnectionPtr> connections;
 
                 physics::ModelPtr model;
@@ -40,6 +45,8 @@ namespace gazebo
                 std::string frame_name_;
 
                 geometry_msgs::Pose pose_;
+
+                geometry_msgs::PoseStamped poseStamp_;
 
                 ros::CallbackQueue pose_queue_;
 

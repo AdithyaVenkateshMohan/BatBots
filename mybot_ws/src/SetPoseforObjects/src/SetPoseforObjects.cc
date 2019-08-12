@@ -29,8 +29,8 @@ GZ_REGISTER_MODEL_PLUGIN(setPosetoObjects)
 bool setPosetoObjects::moveToPt(SetPoseforObjects::MoveToPtr::Request & req , SetPoseforObjects::MoveToPtr::Response & res )
 {
     ignition::math::Pose3d pose = this->model->GetWorldPose().Ign();
-    
-    std::cout<<"the point send here is"<< req.px.position.x << req.px.position.y << req.px.position.z << std::endl;
+
+    std::cout<<"the point send here is"<< "\t"<<req.px.position.x <<"\t" <<req.px.position.y << req.px.position.z << std::endl;
 
     pose =  ignition::math::Pose3d(req.px.position.x ,
                                     req.px.position.y ,

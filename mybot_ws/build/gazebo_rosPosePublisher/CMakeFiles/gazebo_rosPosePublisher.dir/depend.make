@@ -8,6 +8,7 @@ gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/boost_161_pthread_condition_variable_fwd.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/geometry_msgs/Point.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/geometry_msgs/Pose.h
+gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/geometry_msgs/PoseStamped.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/geometry_msgs/Quaternion.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/ros/advertise_options.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/ros/advertise_service_options.h
@@ -67,6 +68,7 @@ gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/ros/wall_timer.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/ros/wall_timer_options.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/rosconsole/macros_generated.h
+gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/std_msgs/Header.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcDecl.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcValue.h
 gazebo_rosPosePublisher/CMakeFiles/gazebo_rosPosePublisher.dir/src/PosePublisher.cc.o: /usr/include/gazebo-7/gazebo/common/Animation.hh
