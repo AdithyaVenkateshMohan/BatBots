@@ -7,13 +7,17 @@ from scipy.signal import windows
 
 def make_impulse_response(delays,echoes_pa,emission_duration, fs):
     duration = numpy.max(delays)
-    impulse_time = numpy.arange(0, duration, 1 / fs)
+    # addded dtype to float 32 to reduce the memory usage
+    #impulse_time = numpy.arange(0, duration, 1 / fs , dtype=numpy.dtype('f4'))
+    impulse_time = numpy.linspace(0 , duration, duration*fs)
+    #print impulse_time , duration/fs , duration , fs
     impulse_response = numpy.zeros(len(impulse_time))
     corrected_delays = delays + emission_duration / 2
     for amplitude, delay in zip(echoes_pa, corrected_delays):
         index = numpy.argmin(numpy.abs(impulse_time - delay))
         impulse_response[index] = impulse_response[index] + amplitude
     return impulse_time, impulse_response
+
 
 def gca(azimuth1, elevation1, azimuth2, elevation2):
     azimuth1 = numpy.deg2rad(azimuth1)

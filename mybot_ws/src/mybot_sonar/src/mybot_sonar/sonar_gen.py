@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 
 # topic that need to be subcribed is a point cloud /mybot/laser/pointcloud2
@@ -38,6 +38,16 @@ def callback(data):
     pc_list = data.points
     intensity_list = data.channels
 
+    echo_sequence , impulse_time = echo_genration(pc_list)
+
+    pyplot.figure(1)
+    pyplot.plot(impulse_time, echo_sequence)
+    pyplot.draw()
+    pyplot.pause(0.00000002)
+    pyplot.clf()
+    pyplot.cla()
+
+def echo_genration(pc_list):
     #param for the echo generation
     sample_frequency = 250000
     emission_level = 100
@@ -86,6 +96,7 @@ def callback(data):
     # Get excentricities and echo delays
 
     excentricities = library.gca(azimuths, elevations, 0, 0)
+    # @causing errors is this too  long for 
     delays = 2 * distances / speed_of_sound
 
     # %%
@@ -111,15 +122,7 @@ def callback(data):
     # Make echo sequence
 
     echo_sequence = numpy.convolve(emission, impulse_response, mode='same')
-
-    pyplot.figure(1)
-    pyplot.plot(impulse_time, echo_sequence)
-    pyplot.draw()
-    pyplot.pause(0.00000002)
-    pyplot.clf()
-    pyplot.cla()
-
-
+    return echo_sequence , impulse_time
     
 
 

@@ -7,8 +7,9 @@ from tf2_msgs.msg import TFMessage as tf
 from nav_msgs.msg import Odometry as odom
 import numpy as np
 
-from mybot_sonar.src import library
-from mybot_sonar.src import sonar_gen
+import library
+
+import sonar_gen
 
 from sensor_msgs.msg import PointCloud 
 from geometry_msgs.msg import Point 
@@ -31,7 +32,7 @@ from SetPoseforObjects.srv import *
 # print(sys.path)
 import message_filters as mf
 
-def call_back2(pos_data, odom_data):
+def call_back2(pos_data, odom_data , polorcloud_data):
     odomP = odom_data.pose.pose.position
     odomVe = np.array([odomP.x , odomP.y])
     poseP = pos_data.pose.position
@@ -119,7 +120,7 @@ def postion_the_object(x,y,z,rx,ry,rz,rw):
 
 if __name__ == "__main__":
     print("came to main first")
-    _Topic = [r'/test/sphere/pose', r'/odom']
+    _Topic = [r'/test/sphere/pose', r'/odom', r'/mybot/laser/polorcloud']
     _nodeName = "eagleEye"
-    _MsgType = [PoseStamped , odom]
+    _MsgType = [PoseStamped , odom,PointCloud]
     sync_listener(_Topic,_nodeName , call_back2, _MsgType)

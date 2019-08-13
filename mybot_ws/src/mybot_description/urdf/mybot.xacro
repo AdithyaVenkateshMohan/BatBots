@@ -4,7 +4,7 @@
 
   <xacro:property name="cameraSize" value="0.05"/>
   <xacro:property name="cameraMass" value="0.1"/>
-  <xacro:property name = "chassisMass" value = "15.00"/>
+  <xacro:property name = "chassisMass" value = "10.00"/>
   <xacro:property name = "chassisX" value = "0.4"/>
   <xacro:property name = "chassisY" value = "0.2"/>
   <xacro:property name = "chassisZ" value = "0.1"/>
@@ -48,11 +48,22 @@
     <inertial>
       <mass value="${chassisMass}"/>
       <origin xyz="0.0 0 0.0" rpy=" 0 0 0"/>
-      <inertia
+      <!-- <inertia
           ixx="${chassisMass*(chassisY*chassisY*chassisZ*chassisZ)/12}" ixy="0" ixz="0"
           iyy="${chassisMass*(chassisX*chassisX*chassisZ*chassisZ)/12}" iyz="0"
           izz="${chassisMass*(chassisX*chassisX*chassisY*chassisY)/12}"
+      /> -->
+   <inertia
+          ixx="0.2" ixy="0" ixz="0"
+          iyy="0.2" iyz="0"
+          izz="0.2"
       />
+
+      <!-- <box_inertia 
+				m="${chassisMass}" 
+				x="${chassisX}" 
+				y="${chassisY}" 
+				z="${chassisZ}"/> -->
     </inertial>
 
     <collision name='collision'>
