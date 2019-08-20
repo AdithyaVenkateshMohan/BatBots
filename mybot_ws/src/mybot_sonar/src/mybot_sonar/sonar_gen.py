@@ -24,7 +24,7 @@ from scipy.interpolate import interp1d
 import library
 
 
-
+Sample_frequency = 250000
 
 #callback on reciving the pointcloud data
 def callback(data):
@@ -46,10 +46,14 @@ def callback(data):
     pyplot.pause(0.00000002)
     pyplot.clf()
     pyplot.cla()
-
+# debug
+i=0
+average_values =numpy.array([])
 def echo_genration(pc_list):
     #param for the echo generation
-    sample_frequency = 250000
+    global i 
+    
+    sample_frequency = 125000
     emission_level = 100
     emission_duration = 0.0025
     emission_frequency = 40000
@@ -58,16 +62,19 @@ def echo_genration(pc_list):
     reflection_strength = -40
     speed_of_sound = 340
 
-    ##### this is where i can give the input 
+    #####this is where i can give the input 
     azimuths = numpy.array([])
     elevations = numpy.array([])
     distances = numpy.array([])
-    print("single point", pc_list[0])
+    print("single point", pc_list[0],"no of points", len(pc_list))
     for p in pc_list:
         #print(p)
         distances = numpy.append(distances, p.x)
         azimuths = numpy.append(azimuths, p.y)
         elevations = numpy.append(elevations, p.z)
+    
+
+    print("most near by dist", numpy.min(distances))
 
     # if not we didn't recive any points    
     assert(distances.size > 0)
@@ -122,11 +129,39 @@ def echo_genration(pc_list):
     # Make echo sequence
 
     echo_sequence = numpy.convolve(emission, impulse_response, mode='same')
-    return echo_sequence , impulse_time
+   
+    global average_values
+    print("compare :", average_values , "Vs" ,numpy.array([distances , elevations , azimuths]))
+    if(i==0):
+        average_values = numpy.array([distances , elevations , azimuths])
+        variations = numpy.zeros(numpy.shape(average_values))
+    else:
+        new_average_values = numpy.array([distances , elevations , azimuths])
+        variations = average_values - new_average_values
+        if(numpy.any(variations > 0)):
+            print("variations there", numpy.where(variations>0 , variations*10, -1))
+        average_values = new_average_values
+    i+=1
     
+    return echo_sequence , impulse_time , variations
+    
+def echo_total_energycalulation(echo):
+    return numpy.sum(numpy.power(echo,2))
 
+# not yet defined 
+def echo_time_window_energycalulation(echo , time_window):
+    global Sample_frequency
+    window_size = int(time_window * Sample_frequency)
+    windowed_energy = numpy.array([])
+    echo = numpy.power(echo,2)
+    for i in range(len(echo)):
+        if window_size+ i < len(echo)-1:
+            single_window = numpy.sum(echo[i:i+window_size])
+        else:
+            single_window = numpy.sum(echo[i:len(echo)])
 
-
+        windowed_energy = numpy.append(windowed_energy, single_window)
+    return windowed_energy
 
 
 def listener3d():

@@ -30,6 +30,8 @@ from SetPoseforObjects.srv import *
 # sys.path.remove(_Python2path)
 # print(sys.path)
 import message_filters as mf
+# these are the list of points to check the directionality
+List_of_points = [[0,-5],[1.71,-4.678],[3.214,-3.83],[4.33,2.5],[4.924,-0.868],[0,0],[0,5],[1.71,4.678],[3.214,3.83],[4.33,2.5],[4.924,0.868]]
 
 def call_back2(pos_data, odom_data):
     odomP = odom_data.pose.pose.position
@@ -102,7 +104,8 @@ def postion_the_object(x,y,z,rx,ry,rz,rw):
     except rospy.ServiceException :
         print("service call failed")
         return False
-
+    
+   
 
 #     import message_filters
 #     2 from sensor_msgs.msg import Image, CameraInfo
@@ -123,3 +126,4 @@ if __name__ == "__main__":
     _nodeName = "eagleEye"
     _MsgType = [PoseStamped , odom]
     sync_listener(_Topic,_nodeName , call_back2, _MsgType)
+    test_directionalityDrill(list_points)

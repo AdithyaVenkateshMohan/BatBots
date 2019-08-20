@@ -54,9 +54,9 @@
           izz="${chassisMass*(chassisX*chassisX*chassisY*chassisY)/12}"
       /> -->
    <inertia
-          ixx="0.2" ixy="0" ixz="0"
-          iyy="0.2" iyz="0"
-          izz="0.2"
+          ixx="0.3" ixy="0" ixz="0"
+          iyy="0.3" iyz="0"
+          izz="0.3"
       />
 
       <!-- <box_inertia 
