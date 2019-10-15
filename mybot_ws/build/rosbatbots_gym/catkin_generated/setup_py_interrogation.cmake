@@ -1,0 +1,6 @@
+set(rosbatbots_gym_SETUP_PY_VERSION "0.0.1")
+set(rosbatbots_gym_SETUP_PY_SCRIPTS "")
+set(rosbatbots_gym_SETUP_PY_PACKAGES "rosbatbots_gym")
+set(rosbatbots_gym_SETUP_PY_PACKAGE_DIRS "src/rosbatbots_gym")
+set(rosbatbots_gym_SETUP_PY_MODULES "")
+set(rosbatbots_gym_SETUP_PY_MODULE_DIRS "")

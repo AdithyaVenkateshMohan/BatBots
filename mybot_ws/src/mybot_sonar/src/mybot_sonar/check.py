@@ -20,6 +20,7 @@ import sensor_msgs.point_cloud2 as pc2
 
 
 import numpy
+
 from matplotlib import pyplot
 from scipy.interpolate import interp1d
 
@@ -57,6 +58,32 @@ cumulative_variations= np.array([])
 # this data is used to simulate echo-pulse
 
 
+
+def track_energy_variations_withPOSNROS(euler_current , points_varx , energy_current , count):
+    # calulating the energy of the echo pulse
+    global rpy_list
+    if count ==1:
+        rpy_list = np.array([euler_current])
+    else :
+        rpy_list = numpy.append(rpy_list, np.array([euler_current]), axis=0)
+    
+    global cumulative_variations
+    print("value",points_varx)
+    
+
+    if count ==1 :
+        cumulative_variations = np.array([points_varx])
+    else:
+        cumulative_variations = np.append(cumulative_variations,np.array([points_varx]),axis=0)
+
+    
+    
+    total_energy_list.append(energy_current)
+    live_plot1D(np.arange(i) , [total_energy_list, rpy_list], row =1 , col =2 , shape = [1,3])
+    
+    live_plot1D(np.arange(i) , cumulative_variations , fig_num=3 , shape=[1])
+    clear_plot(num=3)
+
 def call_back2(pos_data, odom_data , polorcloud_data):
     global i 
     i += 1
@@ -65,14 +92,10 @@ def call_back2(pos_data, odom_data , polorcloud_data):
     odomRot = odom_data.pose.pose.orientation
     q = (odomRot.x , odomRot.y , odomRot.z , odomRot.w)
     euler = tran.euler_from_quaternion(q)
-    global rpy_list
-    if i ==1:
-        rpy_list = np.array([euler])
-    else :
-        rpy_list = numpy.append(rpy_list, np.array([euler]), axis=0)
+    
 
     yaw = math.degrees(euler[2])
-    print("rpy shape", np.shape(rpy_list))
+    # print("rpy shape", np.shape(rpy_list))
     odomVe = np.array([odomP.x , odomP.y])
     stdVe = np.array([1,0])
     poseP = pos_data.pose.position
@@ -86,40 +109,25 @@ def call_back2(pos_data, odom_data , polorcloud_data):
     print("angle in between is odom" , odomVe ,"yaw of the robot :", yaw,"and pose of the object",poseVe,"is:", angle , "distance is given by :", dist)
     
     echo_sequence , impulse_time , variations = sonar_gen.echo_genration(polorcloud_data.points)
-    variations = np.mean(variations , axis=0)
-    variations = numpy.where(variations>0 , variations , -1)
-    checking = np.mean(variations[variations>-1])
-    print("checking", checking , "shape", np.shape(checking))
-    # calulating the energy of the echo pulse
-    global cumulative_variations
-    if i ==1 :
-        cumulative_variations = np.array([checking])
-    else:
-        cumulative_variations = np.append(cumulative_variations,np.array([checking]),axis=0)
-
+    #if checking == None:
     total_energy = sonar_gen.echo_total_energycalulation(echo_sequence)
     # calulating the energy variation with time using a time window of 2ms @time_window= 2e-3
     energy_variation = sonar_gen.echo_time_window_energycalulation(echo_sequence , time_window= 2e-3)
     # storing various echoes_based on it's angle with testing objects 
     #
+    variations = np.mean(variations , axis=0)
+    print("the echo sequence structure :", np.shape(echo_sequence) , "energy", total_energy)
+    variations = numpy.where(variations>0 , variations , -1)
+    checking = np.mean(variations[variations>-1])
+    print("checking", checking , "shape", np.shape(checking))
+    #live_plot1D(impulse_time , echo_sequence , fig_num=2)
+    #clear_plot(num =1)
+    #track_energy_variations_withPOSNROS(euler , checking , total_energy , i)
     if angle in DirectionalityPoints:
         DirectionalityPoints[angle].append([total_energy, energy_variation])
     else:
         DirectionalityPoints[angle] = [[total_energy, energy_variation]]
-
-
-    if odom_data in OdomVariations:
-        OdomVariations[odom_data].append([total_energy, energy_variation])
-    else:
-        OdomVariations[odom_data] = [[total_energy, energy_variation]]
-
     
-    print("the echo sequence structure :", np.shape(echo_sequence) , "energy", total_energy)
-    total_energy_list.append(total_energy)
-    live_plot1D(np.arange(i) , [total_energy_list, rpy_list], row =1 , col =2 , shape = [1,3])
-    live_plot1D(impulse_time , echo_sequence , fig_num=2)
-    live_plot1D(np.arange(i) , cumulative_variations , fig_num=3 , shape=[1])
-    clear_plot(num=3)
 
 def call_back3(data):
     print("hello")
@@ -184,7 +192,10 @@ def give_angle_between(ref , vec):
 #             pyplot.subplot(122)
 #             pyplot.plot(t,x[1][:,o])
 #             pyplot.draw()
+t_fig = 0
+
 def live_plot1D(t , x , fig_num =1, row = 1 , col =1 , shape =[1]):
+    print ('ploting the data' , x)
     if row ==1 and col ==1:
         assert(len(shape)==1)
         pyplot.figure(fig_num)
@@ -209,11 +220,12 @@ def live_plot1D(t , x , fig_num =1, row = 1 , col =1 , shape =[1]):
                 pyplot.plot(t,x[n])
                 pyplot.draw()
 
-       
-    pyplot.pause(0.0000000002)
+    global t_fig
+    t_fig+=1  
+    pyplot.pause(0.000000000000002)
 
 # clearing the plot for the new one
-def clear_plot(num = 1):
+def clear_plot(num = t_fig):
     for i in range(num):
         pyplot.figure(i+1)
         pyplot.clf()
@@ -226,6 +238,7 @@ def listener(topic , node_name, call_back ,msg_type ,anom = False):
     print(p)
     rospy.spin()
 # listener which syncs the listener according to the time stamp
+
 def sync_listener(topic , node_name, call_back ,msg_type ,anom = False):
     print("no. of topics", len(topic))
     assert(len(topic)==len(msg_type))
@@ -271,13 +284,19 @@ def plot_directionalitygraph(directionalitygraph):
         v = np.array(directionalitygraph[k])
         print("the energ tructure", np.shape(v))
         angles.append(k)
-        if len(v) == 1:
-            total_energyies.append(v[0,0])
-        else:
-            total_energyies.append(np.mean(v[:,0]))
+        total_energyies.append(v[0,0])
+        # if len(v) == 1:
+        #     total_energyies.append(v[0,0])
+        # else:
+        #     total_energyies.append(np.mean(v[:,0]))
+
     pyplot.figure(1)
+    pyplot.title("the directionality graph")
+    pyplot.xlabel("the angles ---->")
+    pyplot.ylabel("energies --->")
     pyplot.plot(angles,total_energyies)
-    pyplot.show()
+    pyplot.draw()
+    pyplot.pause(0.000000000000002)
 # not yet done
 def plot_odomVar():
     global OdomVariations
@@ -310,10 +329,10 @@ def test_directionalityDrill(list_points):
 if __name__ == "__main__":
     print("came to main first")
     angle_range= [-45,45]
-    #list_of_points = get_listofpoints_with_var_angle(angle_range,1,radius=2)
+    list_of_points = get_listofpoints_with_var_angle(angle_range,1,radius=2)
     _Topic = [r'/test/sphere/pose', r'/odom', r'/mybot/laser/polorcloud']
     _nodeName = "eaglesEye"
     _MsgType = [PoseStamped , odom,PointCloud]
     sync_listener(_Topic,_nodeName , call_back2, _MsgType)
-    #test_directionalityDrill(list_of_points)
+    test_directionalityDrill(list_of_points)
     rospy.spin()

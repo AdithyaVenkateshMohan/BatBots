@@ -23,6 +23,7 @@ from matplotlib import pyplot
 from scipy.interpolate import interp1d
 import library
 
+import math
 
 Sample_frequency = 250000
 
@@ -48,7 +49,112 @@ def callback(data):
     pyplot.cla()
 # debug
 i=0
-average_values =numpy.array([])
+average_values = numpy.array([])
+
+def test_echo_genration_SinglePt(testing_point_genCon , dist_Test = 1 , azi_Test = 0 , ele_Test = 0 ):
+    energy_with_dvar = numpy.array([[]])
+    energy_with_avar = numpy.array([[]])
+    energy_with_evar = numpy.array([[]])
+    print("the given testing conditions are ", testing_point_genCon)
+
+    # getting the conditions to generate the points
+    if "Dist" in testing_point_genCon :
+        r_genCon = testing_point_genCon["Dist"]
+        
+    else:
+        print ("dist must be given in condition")
+        
+    
+    if "Ele" in testing_point_genCon:
+        e_genCon = testing_point_genCon["Ele"]
+    else :
+        print ("Ele must be in the gn condition")
+        
+
+    if "Azi" in testing_point_genCon:
+        a_genCon = testing_point_genCon["Azi"]
+    else:
+        print("Azi must be in condition to genrate points")
+        
+    # conditions that needs to checked 
+    assert("Dist" in testing_point_genCon and "Ele" in testing_point_genCon and "Azi" in testing_point_genCon)
+    assert(len(r_genCon) == 3 or len(r_genCon) == 1)
+    assert(len(e_genCon) == 3 or len(e_genCon) == 1)
+    assert(len(a_genCon) == 3 or len(a_genCon) == 1)
+
+    const_dist = numpy.array([dist_Test])
+    azi_const = numpy.array([azi_Test])
+    ele_const = numpy.array([ele_Test])
+    
+    if len(r_genCon) > 1:
+        distance_var = numpy.arange(r_genCon[0], r_genCon[1], r_genCon[2]) 
+        # testing points with varying distances
+        for d in distance_var:
+            ele = ele_const
+            az = azi_const
+            dist = numpy.array([d])
+            print("point trying out is" , ele , az ,dist)
+            echo , time = echo_gen_Direct(dist , az , ele)
+            energy = echo_total_energycalulation(echo)
+            if not energy_with_dvar.size:
+                energy_with_dvar = numpy.array([[energy,dist]])
+            else:
+                energy_with_dvar = numpy.append(energy_with_dvar , [[energy,dist]] , axis = 0)
+
+
+    if len(a_genCon) > 1:
+        azi_var = numpy.arange(a_genCon[0], a_genCon[1], a_genCon[2])
+        #testing points with varying azimuth 
+        for a in azi_var:
+            ele = ele_const
+            az = numpy.array([a])
+            dist = const_dist
+            print("point trying out is" , ele , az ,dist)
+            echo , time = echo_gen_Direct(dist , az , ele)
+            energy = echo_total_energycalulation(echo)
+            if not energy_with_avar.size:
+                energy_with_avar = numpy.array([[energy,az]])
+            else:
+                energy_with_avar = numpy.append(energy_with_avar , [[energy,az]], axis = 0)
+
+             
+
+    if len(e_genCon) > 1:
+        ele_var = numpy.arange(e_genCon[0], e_genCon[1], e_genCon[2])
+        #testing points with varying azimuths
+        for e in ele_var:
+            ele = numpy.array([e])
+            az = azi_const
+            dist = const_dist
+            print("point trying out is" , ele , az ,dist)
+            echo , time = echo_gen_Direct(dist , az , ele)
+            energy = echo_total_energycalulation(echo)
+            if not energy_with_evar.size:
+                energy_with_evar = numpy.array([[energy,ele]])
+            else:
+                energy_with_evar = numpy.append(energy_with_evar , [[energy,ele]] , axis = 0)
+        
+    return energy_with_dvar , energy_with_avar , energy_with_evar
+
+# not that different from single point test
+# just getting the points and returning the energy
+def MultiPt_Test_echo_generation(distances , azimuths , elevations):
+    # generating the echo with given points
+    echo , time = echo_gen_Direct(distances , azimuths , elevations)
+    energy = echo_total_energycalulation(echo)
+
+    return energy
+
+    
+    
+    
+    
+
+
+
+      
+
+
 def echo_genration(pc_list):
     #param for the echo generation
     global i 
@@ -70,8 +176,8 @@ def echo_genration(pc_list):
     for p in pc_list:
         #print(p)
         distances = numpy.append(distances, p.x)
-        azimuths = numpy.append(azimuths, p.y)
-        elevations = numpy.append(elevations, p.z)
+        azimuths = numpy.append(azimuths, math.degrees(p.y))
+        elevations = numpy.append(elevations, math.degrees(p.z))
     
 
     print("most near by dist", numpy.min(distances))
@@ -144,7 +250,60 @@ def echo_genration(pc_list):
     i+=1
     
     return echo_sequence , impulse_time , variations
-    
+def echo_gen_Direct(distances , azimuths , elevations):
+    sample_frequency = 125000
+    emission_level = 100
+    emission_duration = 0.0025
+    emission_frequency = 40000
+    emitter_radius = 0.005
+    absorption_coefficient = 1.318  # http://www.sengpielaudio.com/calculator-air.htm
+    reflection_strength = -40
+    speed_of_sound = 340
+
+    emission_samples = int(sample_frequency * emission_duration)
+    emission_time = numpy.linspace(0, emission_duration, emission_samples)
+    emission = numpy.sin(2 * numpy.pi * emission_frequency * emission_time)
+    window = library.signal_ramp(emission_samples, 10)
+    emission = emission * window
+
+    piston, degrees = library.pistonmodel(emission_frequency, radius=emitter_radius)
+    piston = 10 * numpy.log10(piston)
+    piston_function = interp1d(degrees, piston)
+
+    # pyplot.figure()
+    # pyplot.plot(degrees, piston)
+
+    # %%
+    # Get excentricities and echo delays
+
+    excentricities = library.gca(azimuths, elevations, 0, 0)
+    # @causing errors is this too  long for 
+    delays = 2 * distances / speed_of_sound
+
+    # %%
+    # Calculate path losses
+    loss_directionality = piston_function(excentricities)
+    loss_attenuation = - 2 * distances * absorption_coefficient
+    loss_spreading = -40 * numpy.log10(distances)
+
+    echoes = emission_level + reflection_strength + loss_directionality + loss_attenuation + loss_spreading
+    echoes_pa = library.db2pa(echoes)
+    echoes_pa[echoes < 0] = 0
+
+    # %%
+    # Make impulse response
+
+    impulse_time, impulse_response = library.make_impulse_response(delays, echoes_pa, emission_duration, sample_frequency)
+
+    # pyplot.figure()
+    # pyplot.plot(impulse_time, impulse_response)
+
+    # %%
+    # Make echo sequence
+    echo_sequence = numpy.convolve(emission, impulse_response, mode='same')
+
+    return echo_sequence, impulse_time
+
 def echo_total_energycalulation(echo):
     return numpy.sum(numpy.power(echo,2))
 

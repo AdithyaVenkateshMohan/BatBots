@@ -1,0 +1,8 @@
+prefix=/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install
+
+Name: rosbatbots_gym
+Description: Description of rosbatbots_gym
+Version: 0.0.1
+Cflags: 
+Libs: -L/home/adithya/Ros_practice/DiffDriveRobot/FromScarRobot/mybot_ws/install/lib 
+Requires: 

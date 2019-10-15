@@ -4,7 +4,7 @@
 #include <ignition/math/Rand.hh>
 #include <gazebo/physics/physics.hh>
 
-// include files for ros
+// include files for ros lib
 #include <ros/ros.h>
 
 
